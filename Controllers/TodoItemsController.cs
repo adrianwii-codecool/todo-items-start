@@ -10,6 +10,7 @@ namespace TodoItems.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = "AdminOnly")]
     public class TodoItemsController : ControllerBase
     {
         private readonly TodoContext _context;

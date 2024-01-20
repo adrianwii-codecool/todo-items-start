@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
 using System.Text;
 using TodoItems.Configurations.Extensions;
 using TodoItems.Configurations.Options;
@@ -105,6 +106,14 @@ builder.Services.AddAuthorization(options =>
     defaultAuthorizationPolicyBuilder.RequireAuthenticatedUser();
 
     options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
+
+
+    options.AddPolicy("AdminOnly", policy =>
+    {
+        policy.AddAuthenticationSchemes(CookieAuthenticationDefaults.AuthenticationScheme, JwtBearerDefaults.AuthenticationScheme);
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim(ClaimTypes.Role, "Admin");
+    });
 });
 
 var app = builder.Build();

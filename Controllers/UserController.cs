@@ -172,7 +172,7 @@ namespace TodoItems.Controllers
                 issuer: _jwtConfiguration.Issuer,
                 audience: _jwtConfiguration.Audience,
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(1),
+                expires: DateTime.Now.AddSeconds(20),
                 signingCredentials: signInCredentials
                 ); 
 
