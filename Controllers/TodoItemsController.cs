@@ -21,6 +21,7 @@ namespace TodoItems.Controllers
 
         // GET: api/TodoItems
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<TodoItemDTO>>> GetTodoItems()
         {
             if (_context.TodoItems == null)
