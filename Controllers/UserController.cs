@@ -20,10 +20,17 @@ namespace TodoItems.Controllers
             _userManager = userManager;
         }
 
+        private IActionResult ReportError(IdentityResult result)
+        {
+
+            IEnumerable<string> error = result.Errors.Select(e => e.Description);
+            return BadRequest(new {Error = error});
+
+        }
 
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<ActionResult<TodoItem>> Register([FromBody] RegisterDTO registerData)
+        public async Task<IActionResult> Register([FromBody] RegisterDTO registerData)
         {
             User user = new User();
             user.UserName = registerData.UsernName;
@@ -33,13 +40,13 @@ namespace TodoItems.Controllers
 
             if (!result.Succeeded)
             {
-                // TODO throw exception
+                return ReportError(result);
             }
 
             result = await _userManager.AddToRolesAsync(user, registerData.Roles);
 
-            if(!result.Succeeded) { 
-                // TODO throw exception
+            if(!result.Succeeded) {
+                return ReportError(result);
             }
 
             return Accepted($"User '{user.UserName}' has been created");

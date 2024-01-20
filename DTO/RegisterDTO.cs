@@ -16,8 +16,8 @@ namespace TodoItems.DTO
         public string Email { get; set; }
 
         [Required]
-        [MinLength(1)]
-        [MaxLength(16)]
-        public ICollection<string> Roles { get; set; } = new List<string>();
+         [MinLength(1)]
+          [MaxLength(16)]
+       public ICollection<string> Roles { get; set; } = new List<string>();
     }
 }

@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using TodoItems.Configurations.Extensions;
 using TodoItems.Configurations.Options;
 using TodoItems.Data;
+using TodoItems.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +21,20 @@ builder.Services.AddDbContext<TodoContext>(Options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddIdentity<User, Role>(Options =>
+{
+    Options.Password.RequiredLength = 6;
+    Options.Password.RequireDigit = true;
+    Options.Password.RequireLowercase = true;
+    Options.Password.RequireUppercase = true;
+    Options.Password.RequireNonAlphanumeric = true;
+
+    Options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+    Options.User.RequireUniqueEmail = true;
+})
+    .AddEntityFrameworkStores<TodoContext>()
+    .AddDefaultTokenProviders();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,5 +49,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// drop all tables and run migrations
+app.InitializeDatabase();
 
 app.Run();
