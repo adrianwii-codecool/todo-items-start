@@ -15,5 +15,8 @@ namespace TodoItems.Models
         public string? Secret { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        [ForeignKey(nameof(User))]
+        public string? UserId { get; set; }
     }
 }
