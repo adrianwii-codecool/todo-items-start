@@ -13,7 +13,7 @@ namespace TodoItems.DTO
         [Required]
         [MaxLength(100)]
         [EmailAddress]
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
 
         [Required]
          [MinLength(1)]

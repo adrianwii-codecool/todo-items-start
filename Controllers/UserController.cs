@@ -102,6 +102,7 @@ namespace TodoItems.Controllers
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties
             {
+                IsPersistent = true,
                 AllowRefresh = true,
                 ExpiresUtc = DateTime.UtcNow.AddDays(1)
             });
